@@ -1,0 +1,51 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Globalization;
+using System.IO;
+using System.Threading.Tasks;
+namespace ConsoleApplication1
+{
+    class File_Delete_index
+    {
+        static void Main(string[] args){
+            //spaces
+            string ext = ".txt";
+            string notepad_name = "hi";
+            string myPath = @"C:\Users\muhdsyamil.zamzuri\Desktop\"+notepad_name+ext;
+            var filePath = new FileInfo(myPath);
+            var model = new File_Delete_model();
+            DateTime createdAt = filePath.CreationTime;
+            var createdAt_myDateFormat = createdAt.ToString(model.dd + model.mm + model.yyyy);
+            var dateAfter1 = createdAt.AddDays(model.day);
+            var dateAfter1_myDateFormat = dateAfter1.ToString(model.dd + model.mm + model.yyyy);
+            var todayDate = DateTime.Now;
+            var todayDate_myDateFormat = todayDate.ToString(model.dd + model.mm + model.yyyy);
+            string dateAfter1_Short = dateAfter1.ToShortDateString();
+            string todayDate_Short = todayDate.ToShortDateString();
+            int output = DateTime.Compare(dateAfter1, todayDate);
+            model.day = 1;
+            model.yyyy = "yyyy";
+            model.mm = "MM/";
+            model.dd = "dd/";
+
+
+            Console.WriteLine(model.myDateAfter1 + dateAfter1);
+            Console.WriteLine(model.myCreatedAt + createdAt);
+            Console.WriteLine(model.myDateTimeNow + todayDate);
+            Console.WriteLine(model.compareBetween + model.myDateAfter1 + "and " + model.myDateTimeNow);
+            Console.WriteLine("dateAfter1Short: " + dateAfter1_Short + " todayDateShort " + todayDate_Short);
+            Console.WriteLine(model.compareBetween + output);
+
+            if (todayDate_Short == dateAfter1_Short || output == 0 || output == -1){
+                File.Delete(myPath);
+                Console.Write(model.myMsg+notepad_name+ext);
+            }
+            else{
+                Console.WriteLine(model.myAlt);
+            };
+            Console.ReadKey();
+        }
+    }
+}
